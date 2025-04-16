@@ -1,148 +1,43 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class RockPaperScissorsRunner {
+    private RockPaperScissorsFrame frame;
+    private int playerWins = 0;
+    private int computerWins = 0;
+    private int ties = 0;
+
+    public RockPaperScissorsRunner() {
+        frame = new RockPaperScissorsFrame(new GameActionListener(), e -> System.exit(0));
+    }
+
+    private class GameActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String playerChoice = e.getActionCommand();
+            String[] choices = {"Rock", "Paper", "Scissors"};
+            String computerChoice = choices[(int) (Math.random() * 3)];
+            String result;
+
+            if (playerChoice.equals(computerChoice)) {
+                result = "It's a Tie!";
+                ties++;
+            } else if ((playerChoice.equals("Rock") && computerChoice.equals("Scissors")) ||
+                    (playerChoice.equals("Paper") && computerChoice.equals("Rock")) ||
+                    (playerChoice.equals("Scissors") && computerChoice.equals("Paper"))) {
+                result = playerChoice + " beats " + computerChoice + " (Player wins)";
+                playerWins++;
+            } else {
+                result = computerChoice + " beats " + playerChoice + " (Computer wins)";
+                computerWins++;
+            }
+
+            frame.appendResult(result);
+            frame.updateStats(playerWins, computerWins, ties);
+        }
+    }
+
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        new RockPaperScissorsRunner();
     }
 }
-//import java.util.Scanner;
-//public class RockPaperScissors
-//{
-//    public static void main(String[] args)
-//    {
-//        Scanner in = new Scanner(System.in);
-//        String moveA = "";
-//        String moveB = "";
-//        String play = "";
-//        boolean done = false;
-//        do
-//        {
-//            System.out.print("Player 1: Enter your move [R, P, S]: ");
-//            moveA = in.nextLine();
-//            if (moveA.equalsIgnoreCase("R"))
-//            {
-//                System.out.print("Player 2: Enter your move [R, P, S]: ");
-//                moveB = in.nextLine();
-//                if (moveB.equalsIgnoreCase("R"))
-//                {
-//                    System.out.println("Rock vs. Rock! Its a Tie!");
-//                    System.out.print("Would you like to play again? [Y, N]: ");
-//                    play = in.nextLine();
-//                    if (play.equalsIgnoreCase("N"))
-//                    {
-//                        done = true;
-//                    }
-//                }
-//                else if (moveB.equalsIgnoreCase("P"))
-//                {
-//                    System.out.println("Paper covers Rock! Player 2 Wins!");
-//                    System.out.print("Would you like to play again? [Y, N]: ");
-//                    play = in.nextLine();
-//                    if (play.equalsIgnoreCase("N"))
-//                    {
-//                        done = true;
-//                    }
-//                }
-//                else if (moveB.equalsIgnoreCase("S"))
-//                {
-//                    System.out.println("Rock breaks Scissors! Player 1 Wins!");
-//                    System.out.print("Would you like to play again? [Y, N]: ");
-//                    play = in.nextLine();
-//                    if (play.equalsIgnoreCase("N"))
-//                    {
-//                        done = true;
-//                    }
-//                }
-//                else
-//                {
-//                    System.out.println("Please enter a valid input!");
-//                    System.out.println("Player 2: Please enter R, P, or S not: " + moveB);
-//                }
-//            }
-//            else if (moveA.equalsIgnoreCase("P"))
-//            {
-//                System.out.print("Player 2: Enter your move [R, P, S]: ");
-//                moveB = in.nextLine();
-//                if (moveB.equalsIgnoreCase("R"))
-//                {
-//                    System.out.println("Paper covers Rock! Player 1 Wins!");
-//                    System.out.print("Would you like to play again? [Y, N]: ");
-//                    play = in.nextLine();
-//                    if (play.equalsIgnoreCase("N"))
-//                    {
-//                        done = true;
-//                    }
-//                }
-//                else if (moveB.equalsIgnoreCase("P"))
-//                {
-//                    System.out.println("Paper vs Paper! It's a Tie!");
-//                    System.out.print("Would you like to play again? [Y, N]: ");
-//                    play = in.nextLine();
-//                    if (play.equalsIgnoreCase("N"))
-//                    {
-//                        done = true;
-//                    }
-//                }
-//                else if (moveB.equalsIgnoreCase("S"))
-//                {
-//                    System.out.println("Scissors cuts Paper! Player 2 Wins!");
-//                    System.out.print("Would you like to play again? [Y, N]: ");
-//                    play = in.nextLine();
-//                    if (play.equalsIgnoreCase("N"))
-//                    {
-//                        done = true;
-//                    }
-//                }
-//                else
-//                {
-//                    System.out.println("Please enter a valid input!");
-//                    System.out.println("Player 2: Please enter R, P, or S not: " + moveB);
-//                }
-//            }
-//            else if (moveA.equalsIgnoreCase("S"))
-//            {
-//                System.out.print("Player 2: Enter your move [R, P, S]: ");
-//                moveB = in.nextLine();
-//                if (moveB.equalsIgnoreCase("R"))
-//                {
-//                    System.out.println("Rock breaks Scissors! Player 2 Wins!");
-//                    System.out.print("Would you like to play again? [Y, N]: ");
-//                    play = in.nextLine();
-//                    if (play.equalsIgnoreCase("N"))
-//                    {
-//                        done = true;
-//                    }
-//                }
-//                else if (moveB.equalsIgnoreCase("P"))
-//                {
-//                    System.out.println("Scissors cuts Paper! Player 1 Wins!");
-//                    System.out.print("Would you like to play again? [Y, N]: ");
-//                    play = in.nextLine();
-//                    if (play.equalsIgnoreCase("N"))
-//                    {
-//                        done = true;
-//                    }
-//                }
-//                else if (moveB.equalsIgnoreCase("S"))
-//                {
-//                    System.out.println("Scissors vs. Scissors! It's a Tie!");
-//                    System.out.print("Would you like to play again? [Y, N]: ");
-//                    play = in.nextLine();
-//                    if (play.equalsIgnoreCase("N"))
-//                    {
-//                        done = true;
-//                    }
-//                }
-//                else
-//                {
-//                    System.out.println("Please enter a valid input!");
-//                    System.out.println("Player 2: Please enter R, P, or S not: " + moveB);
-//                }
-//            }
-//            else
-//            {
-//                System.out.println("Please enter a valid input!");
-//                System.out.println("Player 1: Please enter R,P, or S not: " + moveA);
-//            }
-//        }
-//        while(!done);
-//    }
-//}
